@@ -1,0 +1,316 @@
+<htmlform formUuid="4600E18F-17F2-4C40-9E38-257BF3E4CBBF"
+          formName="ANC eMastercard"
+          formEncounterType="2C16E6DF-E858-472B-B623-72C8A179FEAE"
+          formVersion="1.0">
+
+    <macros>
+        diagnosisSet=8445
+        chronicCareDiagnosis=3683
+        diagnosisDate=6774
+        diabetesType1Dx=6409
+        diabetesType2Dx=6410
+        hypertensionDx=6740
+        strokeDx=8455
+        cardioDx=996
+        pvdDx=7586
+        retinopathyDx=8452
+        neuropathyDx=8450
+        renalDx=6033
+        sexdysfxDx=8449
+        diabetesFamilyHistory=6740
+        hypertensionFamilyHistory=8458
+        yesAnswer=1065
+        noAnswer=1066
+        unknown=1067
+        hivStatus=3753
+        hivTestDate=1837
+        reactive=1228
+        nReactive=1229
+        artStartDate=2516
+        tbStatus=7459
+        smearPos=2185
+        smearNeg=2186
+        eptb=1547
+        tbYear=8453
+        patientPhone=1426
+        symptom=1293
+        guardianName=1824
+        smokingHistory=1551
+        inPast=1548
+        lastTimeSmoking=8432
+        guardianPhone=2616
+        relationToPatient=1328
+        agreesToFollowup=2552
+        chwName=8431
+    </macros>
+
+    <span style="display:none">
+        <encounterProvider default="16576"/>
+        <span id="patientBirthdate"><lookup expression="patient.birthdate"/></span>
+    </span> <!-- Set provider to a default as not used -->
+    <div>
+        <h4 style="font-style: italic;">
+            <b>NCD Patient Card</b>
+            <b style="padding-left:50px;">ANC</b>
+            <span style="padding-left:50px;">Version 1</span>
+
+            <span style="padding-left:50px;">
+                <b style="padding-right:10px;">
+                    <encounterLocation id="mastercardLocation"/>
+                    <span style="padding-left:20px;">
+                        Date
+                        <encounterDate/>
+                    </span>
+                </b>
+            </span>
+
+            <span style="padding-left:50px;">
+                <b style="padding-right:10px;">NCD Reg no</b>
+                <b>
+                    <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;Chronic Care Number&quot;) ) $!id #end"/>
+                </b>
+            </span>
+        </h4>
+
+        <br/>
+        <hr/>
+
+        <table class="data-entry-table">
+            <tr style="border: none;">
+                <td style="vertical-align:top;">
+                    <h5>Patient / Guardian Details</h5>
+                    <table>
+                        <tr>
+                            <td>Patient Name</td>
+                            <td>
+                                <lookup expression="patient.personName"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Sex, DOB</td>
+                            <td>
+                                <span class="left-cell">
+                                    <lookup expression="patient.gender"/>
+                                </span>
+                                <span class="right-cell">
+                                    <lookup expression="patient.birthdate"/>
+                                    (Age:<lookup expression="patient.age"/>)
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Physical Address</td>
+                            <td><!-- style="height:60px;"-->
+                                <lookup complexExpression="#foreach( $addr in $patient.addresses) $!addr.getAddress1() $!addr.getCityVillage() $!addr.getStateProvince() $!addr.getCountyDistrict(), #end"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Patient Phone</td>
+                            <td>
+                                <obs conceptId="$patientPhone" size="10"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Guardian Name</td>
+                            <td>
+                                <obs id="guardianNameField" conceptId="$guardianName" size="40"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Guardian Phone</td>
+                            <td>
+                                <obs conceptId="$guardianPhone" size="10"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Guardian relation to patient</td>
+                            <td>
+                                <obs conceptId="$relationToPatient" size="10"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Agrees to FUP</td>
+                            <td>
+                                <obs conceptId="$agreesToFollowup" style="radio" answerLabels="N,Y"
+                                     answerConceptIds="$noAnswer,$yesAnswer"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>CHW Name</td>
+                            <td>
+                                <obs conceptId="$chwName"/>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+
+                <td style="vertical-align:top;">
+                    <h5>Patient Overview</h5>
+                    <table>
+                        <tr>
+                            <th style="vertical-align:top;" align="left" rowspan="3">Diagnoses</th>
+                            <!-- DM 1 -->
+                            <obsgroup groupingConceptId="$diagnosisSet">
+                                <td data-toggle-source="diabetes-type-1-dx" data-toggle-target="diabetes-type-1-dx-date">
+                                    <obs id="diabetes-type-1-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$diabetesType1Dx" answerLabel="Type 1 DM"/>
+                                </td>
+                                <td>
+                                    <obs id="diabetes-type-1-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                </td>
+                            </obsgroup>
+
+                            <!-- Family History -->
+                            <th style="vertical-align:top;" align="left" rowspan="3">Family History</th>
+                            <td rowspan="2">
+                                <obs conceptId="$diabetesFamilyHistory" labelText="Diabetes"
+                                     answerConceptIds="$yesAnswer,$noAnswer,$unknown" answerLabels="Y,N,UNK"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <!-- DM 2 -->
+                            <obsgroup groupingConceptId="$diagnosisSet">
+                                <td data-toggle-source="diabetes-type-2-dx" data-toggle-target="diabetes-type-2-dx-date">
+                                    <obs id="diabetes-type-2-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$diabetesType2Dx" answerLabel="Type 2 DM"/>
+                                </td>
+                                <td>
+                                    <obs id="diabetes-type-2-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                </td>
+                            </obsgroup>
+                        </tr>
+                        <tr>
+                            <obsgroup groupingConceptId="$diagnosisSet">
+                                <td data-toggle-source="hypertension-dx" data-toggle-target="hypertension-dx-date">
+                                    <obs id="hypertension-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$hypertensionDx" answerLabel="Hypertension"/>
+                                </td>
+                                <td>
+                                    <obs id="hypertension-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                </td>
+                            </obsgroup>
+                            <td class="nowrap">
+                                <obs conceptId="$hypertensionFamilyHistory" labelText="Hypertension"
+                                     answerConceptIds="$yesAnswer,$noAnswer,$unknown" answerLabels="Y,N,UNK"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th style="vertical-align:top;" align="left" rowspan="5">Patient<br/>History &#38;<br/>
+                                Complications
+                            </th>
+                            <td rowspan="2">
+                                <obs conceptId="$hivStatus" labelText="HIV"
+                                     answerConceptIds="$reactive,$nReactive,$unknown"/>
+                                <br/>
+                                <obs conceptId="$hivTestDate" labelText="Date test"/>
+                            </td>
+                            <td rowspan="2">
+                                <obs conceptId="$artStartDate" labelText="ART Start Date"/>
+                            </td>
+                            <td class="nowrap">
+                                <obs conceptId="$tbStatus" labelText="TB"
+                                     answerConceptIds="$smearPos,$smearNeg,$eptb,$unknown"
+                                     answerLabels="smear pos,smear neg,EPTB,never had TB"/>
+                            </td>
+                            <td>
+                                <obs conceptId="$tbYear" labelText="Year"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <obsgroup groupingConceptId="$diagnosisSet">
+                                <td data-toggle-source="stroke-dx" data-toggle-target="stroke-dx-date">
+                                    <obs id="stroke-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$strokeDx" answerLabel="Stroke/TIA"/>
+                                </td>
+                                <td>
+                                    <obs id="stroke-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                </td>
+                            </obsgroup>
+                        </tr>
+                        <tr>
+                            <obsgroup groupingConceptId="$diagnosisSet">
+                                <td data-toggle-source="cardio-dx" data-toggle-target="cardio-dx-date">
+                                    <obs id="cardio-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$cardioDx" answerLabel="Cardiovascular Disease"/>
+                                    <br/>
+                                    <i style="font-size:.7em;">
+                                        (e.g. heart attack, ischemic heart disease, CCF)
+                                    </i>
+                                </td>
+                                <td>
+                                    <obs id="cardio-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                </td>
+                            </obsgroup>
+                            <obsgroup groupingConceptId="$diagnosisSet">
+                                <td data-toggle-source="pvd-dx" data-toggle-target="pvd-dx-date">
+                                    <obs id="pvd-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$pvdDx" answerLabel="PVD"/>
+                                    <br/>
+                                    <i style="font-size:.7em;">
+                                        (e.g. ulcers, gangrene)
+                                    </i>
+                                </td>
+                                <td>
+                                    <obs id="pvd-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                </td>
+                            </obsgroup>
+                        </tr>
+                        <tr>
+                            <obsgroup groupingConceptId="$diagnosisSet">
+                                <td data-toggle-source="retinopathy-dx" data-toggle-target="retinopathy-dx-date">
+                                    <obs id="retinopathy-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$retinopathyDx" answerLabel="Retinopathy"/>
+                                </td>
+                                <td>
+                                    <obs id="retinopathy-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                </td>
+                            </obsgroup>
+                            <obsgroup groupingConceptId="$diagnosisSet">
+                                <td data-toggle-source="neuropathy-dx" data-toggle-target="neuropathy-dx-date">
+                                    <obs id="neuropathy-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$neuropathyDx" answerLabel="Neuropathy"/>
+                                </td>
+                                <td class="nowrap">
+                                    <obs id="neuropathy-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                </td>
+                            </obsgroup>
+                        </tr>
+                        <tr>
+                            <obsgroup groupingConceptId="$diagnosisSet">
+                                <td data-toggle-source="renal-dx" data-toggle-target="renal-dx-date">
+                                    <obs id="renal-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$renalDx" answerLabel="Renal Disease"/>
+                                    <br/>
+                                    <i style="font-size:.7em;">
+                                        (e.g. elevated creatinine)
+                                    </i>
+                                </td>
+                                <td>
+                                    <obs id="renal-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                </td>
+                            </obsgroup>
+                            <obsgroup groupingConceptId="$diagnosisSet">
+                                <td class="nowrap" data-toggle-source="sexdysfx-dx" data-toggle-target="sexdysfx-dx-date">
+                                    <obs id="sexdysfx-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$sexdysfxDx" answerLabel="Sexual&amp;nbsp;Dysfunction"/>
+                                </td>
+                                <td class="nowrap">
+                                    <obs id="sexdysfx-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                </td>
+                            </obsgroup>
+                        </tr>
+                        <tr>
+                            <th style="vertical-align:top;" align="left">Outcome</th>
+                            <td colspan="4">
+                                <b>
+                                    <lookup expression="fn.currentProgramWorkflowStatus(16).state.concept.name"/>
+                                    (<lookup expression="fn.currentProgramWorkflowStatus(16).startDate"/>)
+                                </b>
+                            </td>
+                        </tr>
+                    </table>
+
+                </td>
+            </tr>
+        </table>
+        <ifMode mode="VIEW" include="false">
+            <div id="buttons" style="margin-top:10px;">
+                <button class="submitButton confirm" onclick="submitHtmlForm()">
+                    <uimessage code="uicommons.save"/>
+                    <i class="icon-spinner icon-spin icon-2x" style="display: none; margin-left: 10px;"></i>
+                </button>
+            </div>
+        </ifMode>
+    </div>
+</htmlform>

@@ -111,6 +111,17 @@ public class EncounterTypes {
         public String uuid() { return "664bb896-977f-11e1-8993-905e29aff6c1"; }
         public String name() { return "CHRONIC_CARE_FOLLOWUP"; }
         public String description() { return "Visit rows in the Chronic Care Mastercard"; }
-    };  
+    };
 
+    public static EncounterTypeDescriptor ANC_INITIAL = new EncounterTypeDescriptor() {
+        public String uuid() { return "2C16E6DF-E858-472B-B623-72C8A179FEAE"; }
+        public String name() { return "ANC_INITIAL"; }
+        public String description() { return "Top section of the ANC Mastercard"; }
+    };
+
+    public static EncounterTypeDescriptor ANC_FOLLOWUP = new EncounterTypeDescriptor() {
+        public String uuid() { return "964A7DCB-EE50-4047-A394-8DEF8956DABC"; }
+        public String name() { return "ANC_FOLLOWUP"; }
+        public String description() { return "Visit rows in the ANC Mastercard"; }
+    };
 }

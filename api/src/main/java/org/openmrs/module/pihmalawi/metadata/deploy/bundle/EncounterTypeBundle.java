@@ -33,6 +33,10 @@ public class EncounterTypeBundle extends AbstractMetadataBundle {
         // Mental Health
         install(EncounterTypes.MENTAL_HEALTH_INITIAL);
         install(EncounterTypes.MENTAL_HEALTH_FOLLOWUP);
+
+        // ANC
+        install(EncounterTypes.ANC_INITIAL);
+        install(EncounterTypes.ANC_FOLLOWUP);
     }
 
     //***** BUNDLE INSTALLATION METHODS FOR DESCRIPTORS

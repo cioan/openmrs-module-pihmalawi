@@ -170,6 +170,7 @@ public class EMastercardAccessTag extends BodyTagSupport {
         m.put(EncounterTypes.HTN_DIABETES_INITIAL.name(), "headerForm=htn_dm_mastercard&flowsheets=htn_dm_visit&flowsheets=htn_dm_labs&flowsheets=htn_dm_hospital");
         m.put(EncounterTypes.EPILEPSY_INITIAL.name(), "headerForm=epilepsy_mastercard&flowsheets=epilepsy_visit");
         m.put(EncounterTypes.MENTAL_HEALTH_INITIAL.name(), "headerForm=mental_health_mastercard&flowsheets=mental_health_visit");
+		m.put(EncounterTypes.ANC_INITIAL.name(), "headerForm=anc_mastercard&flowsheets=anc_visit");
         m.put(EncounterTypes.CHRONIC_CARE_INITIAL.name(), "headerForm=ncd_mastercard&flowsheets=ncd_visit");
 
         return m.get(f.getEncounterType().getName());
